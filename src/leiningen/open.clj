@@ -12,11 +12,21 @@
 (defn- jar-file [group artifact version]
   (maven-file group artifact version (format "%s-%s.jar" artifact version)))
 
+;; from https://github.com/Raynes/fs/blob/master/src/me/raynes/fs.clj
+(defn- delete-dir
+  "Delete a directory tree."
+  [root]
+  (when (.isDirectory root)
+    (doseq [path (map #(io/file root %) (.list root))]
+      (delete-dir path)))
+  (.delete root))
+
 (defn- unpack [path]
-  (let [jar-dir (->> path .getName (re-find #"(.*)\.jar") second)
-        jar-dir (io/file lein-open-home jar-dir)
+  (let [jar-dir (->> path .getName (re-find #"(.*)\.jar") second
+                     (io/file lein-open-home))
         commands ["unzip" "-d" (.getPath jar-dir) (.getPath path)]]
     (.mkdirs jar-dir)
+    (when (.exists jar-dir) (delete-dir jar-dir))
     (apply sh/sh commands)
     (println (.getPath jar-dir))))
 

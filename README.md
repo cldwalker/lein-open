@@ -13,12 +13,8 @@ Add `[lein-open "0.1.0-SNAPSHOT"]` to your ~/.lein/profiles.clj:
 Within a clojure project:
 
 ```sh
-# Unpacks the table jar dependency for viewing
+# Unpacks the table jar dependency and opens it an editor
 $ lein open table
-/Users/me/.lein-open/table-0.3.2
-
-# To open in an editor
-$ emacs $(lein open table)
 ```
 
 ## Motivation
@@ -26,12 +22,17 @@ $ emacs $(lein open table)
 It's helpful to read dependency code and not have to depend on editor configuration.
 This is quite similar to `bundler open` in [bundler](http://gembundler.com/).
 
+## Limitations
+
+This plugin can only open code in a non-console editor e.g. gvim or X-emacs. Attempting
+to open a console editor will result in the error "emacs: standard input is not a tty\n".
+To resolve this in mac osx, reinstall emacs with X support: `brew install emacs --with-x`.
+
 ## Bugs/Issues
 
 Please report them [on github](http://github.com/cldwalker/lein-open/issues).
 
 ## TODO
-* Open up unpacked jar within an editor automatically
 * Open any clojar i.e. one not in a project or even downloaded.
 
 ## License

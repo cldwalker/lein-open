@@ -3,6 +3,7 @@
             [clojure.java.io :as io]
             [clojure.java.shell :as sh]))
 
+(def editor (or (System/getenv "LEIN_OPEN_EDITOR") "emacs"))
 (def maven-repository [(System/getProperty "user.home") ".m2" "repository"])
 (def lein-open-home (io/file (System/getProperty "user.home") ".lein-open"))
 
@@ -21,27 +22,31 @@
       (delete-dir path)))
   (.delete root))
 
-(defn- unpack [path]
+(defn- unpack-and-view [path]
   (let [jar-dir (->> path .getName (re-find #"(.*)\.jar") second
                      (io/file lein-open-home))
         commands ["unzip" "-d" (.getPath jar-dir) (.getPath path)]]
     (.mkdirs jar-dir)
     (when (.exists jar-dir) (delete-dir jar-dir))
     (apply sh/sh commands)
-    (println (.getPath jar-dir))))
+    (sh/sh editor (.getPath jar-dir))))
 
 (defn open
-  "Unpacks a project's dependency in ~/.lein-open/:name."
+  "Unpacks a project's dependency in ~/.lein-open/:name and opens it an editor.
+The editor defaults to emacs but can be configured with $LEIN_OPEN_EDITOR."
   [project dependency]
   (if-let [dep (->> project
                     :dependencies
-                    (filter (fn [[full-name version]] (= (name full-name) dependency)))
+                    (filter (fn [[full-name version]]
+                              (if (.contains dependency "/")
+                                (= (str full-name) dependency)
+                                (= (name full-name) dependency))))
                     first)]
     (let [[full-name version] dep
           group (namespace full-name)
           artifact (name full-name)
           path (jar-file group artifact version)]
       (if (.exists path)
-        (unpack path)
+        (unpack-and-view path)
         (main/abort (format "No jar exists for %s." dependency))))
     (main/abort (format "Dependency %s not found in this project." dependency))))

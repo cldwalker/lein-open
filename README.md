@@ -10,11 +10,17 @@ Add `[lein-open "0.1.0-SNAPSHOT"]` to your ~/.lein/profiles.clj:
 
 ## Usage
 
-Within a clojure project:
+Within a clojure project, view a jar dependency in an editor:
 
 ```sh
-# Unpacks the table jar dependency and opens it an editor
+# View the table jar
 $ lein open table
+```
+
+You can also view any jar in your maven repo by specifying it's full name and version:
+
+```sh
+$ lein open ring/ring-core 1.1.0
 ```
 
 ## Motivation
@@ -33,7 +39,8 @@ To resolve this in mac osx, reinstall emacs with X support: `brew install emacs 
 Please report them [on github](http://github.com/cldwalker/lein-open/issues).
 
 ## TODO
-* Open any clojar i.e. one not in a project or even downloaded.
+* Download and open from clojars
+* Download and first clojure project on github
 
 ## License
 

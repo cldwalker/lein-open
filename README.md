@@ -1,6 +1,6 @@
 ## Description
 
-Open a jar dependency in an editor easily.
+Open a jar in an editor easily.
 
 ## Install
 

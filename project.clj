@@ -1,4 +1,4 @@
-(defproject lein-open "0.1.0-SNAPSHOT"
+(defproject lein-open "0.1.0"
   :description "Open a jar dependency in an editor easily."
   :url "http://github.com/cldwalker/lein-open"
   :license {:name "The MIT License"

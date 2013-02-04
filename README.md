@@ -4,9 +4,9 @@ Open a jar dependency in an editor easily.
 
 ## Install
 
-Add `[lein-open "0.1.0-SNAPSHOT"]` to your ~/.lein/profiles.clj:
+Add `[lein-open "0.1.0"]` to your ~/.lein/profiles.clj:
 
-    {:user {:plugins [[lein-open "0.1.0-SNAPSHOT"]]}}
+    {:user {:plugins [[lein-open "0.1.0"]]}}
 
 ## Usage
 

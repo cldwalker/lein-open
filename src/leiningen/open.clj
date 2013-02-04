@@ -32,28 +32,28 @@
     (apply sh/sh commands)
     (.getPath jar-dir)))
 
-(defn- unpack-and-view [group artifact version dep]
+(defn- unpack-and-view [group artifact version jar]
   (let [path (jar-file group artifact version)]
     (if (.exists path)
       (->> (unpack path) (sh/sh editor))
-      (main/abort (format "No jar was found for %s. Try running `lein deps`." dep)))))
+      (main/abort (format "No jar was found for %s. Try running `lein deps`." jar)))))
 
 (defn open
-  "Unpacks a project's dependency in ~/.lein-open/:name and opens it an editor.
+  "Unpacks a jar in ~/.lein-open/:name and opens it an editor.
 The editor defaults to emacs but can be configured with $LEIN_OPEN_EDITOR."
-  [project dependency & [version]]
-  (if-let [dep (->> project
+  [project jar & [version]]
+  (if-let [pair (->> project
                     :dependencies
                     (filter (fn [[full-name version]]
-                              (if (.contains dependency "/")
-                                (= (str full-name) dependency)
-                                (= (name full-name) dependency))))
+                              (if (.contains jar "/")
+                                (= (str full-name) jar)
+                                (= (name full-name) jar))))
                     first)]
-    (let [[full-name version] dep
+    (let [[full-name version] pair
           group (namespace full-name)
           artifact (name full-name)]
-      (unpack-and-view group artifact version dependency))
-    (if (and version (.contains dependency "/"))
-      (let [[group artifact] (clojure.string/split dependency #"/")]
-        (unpack-and-view group artifact version dependency))
-      (main/abort (format "Jar %s not found in this project or your maven repo." dependency)))))
+      (unpack-and-view group artifact version jar))
+    (if (and version (.contains jar "/"))
+      (let [[group artifact] (clojure.string/split jar #"/")]
+        (unpack-and-view group artifact version jar))
+      (main/abort (format "Jar %s not found in this project or your maven repo." jar)))))

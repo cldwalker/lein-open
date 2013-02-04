@@ -10,7 +10,7 @@ Add `[lein-open "0.1.0-SNAPSHOT"]` to your ~/.lein/profiles.clj:
 
 ## Usage
 
-Within a clojure project, view a jar dependency in an editor:
+Within a lein project, view a jar dependency in an editor:
 
 ```sh
 # View the table jar

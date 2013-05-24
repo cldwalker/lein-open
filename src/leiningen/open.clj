@@ -4,7 +4,7 @@
             [clojure.java.shell :as sh]
             clojure.string))
 
-(def editor (or (System/getenv "LEIN_OPEN_EDITOR") "emacs"))
+(def editor (or (System/getenv "LEIN_OPEN_EDITOR") (System/getenv "EDITOR") "emacs"))
 (def maven-repository [(System/getProperty "user.home") ".m2" "repository"])
 (def lein-open-home (io/file (System/getProperty "user.home") ".lein-open"))
 

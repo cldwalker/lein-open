@@ -12,7 +12,8 @@
   (apply io/file (concat maven-repository args)))
 
 (defn- jar-file [group artifact version]
-  (maven-file group artifact version (format "%s-%s.jar" artifact version)))
+  (let [group-dirs (clojure.string/replace group "." "/")]
+   (maven-file group-dirs artifact version (format "%s-%s.jar" artifact version))))
 
 ;; from https://github.com/Raynes/fs/blob/master/src/me/raynes/fs.clj
 (defn- delete-dir
@@ -44,7 +45,7 @@ The editor defaults to emacs but can be configured with $LEIN_OPEN_EDITOR."
   [project jar & [version]]
   (if-let [pair (->> project
                     :dependencies
-                    (filter (fn [[full-name version]]
+                    (filter (fn [[full-name _]]
                               (if (.contains jar "/")
                                 (= (str full-name) jar)
                                 (= (name full-name) jar))))

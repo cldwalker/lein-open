@@ -3,6 +3,5 @@
   :url "http://github.com/cldwalker/lein-open"
   :license {:name "The MIT License"
             :url "https://en.wikipedia.org/wiki/MIT_License"}
-  :dependencies [[org.clojure/clojure "1.4.0"]
-                 [com.palletops/pallet "0.8.0-RC.7"]]
+  :dependencies [[org.clojure/clojure "1.4.0"]]
   :eval-in-leiningen true)

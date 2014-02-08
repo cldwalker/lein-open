@@ -38,6 +38,10 @@ To resolve this in mac osx, reinstall emacs with X support: `brew install emacs 
 
 Please report them [on github](http://github.com/cldwalker/lein-open/issues).
 
+## Credits
+* sunblaze for a bug fix
+* dcuddeback for editor tweak
+
 ## TODO
 * Download and open from clojars
 * Download and first clojure project on github
